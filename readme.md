@@ -89,3 +89,9 @@ cd /var/www && \
 chown -R www-data:www-data * && \
 chmod -R o+w app
 ```
+##Faça a migração de dados
+
+```sh
+docker exec -it web bash
+php artisan migrate --seed
+```
