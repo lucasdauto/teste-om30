@@ -8,8 +8,8 @@ services:
       dockerfile: ./docker/Dockerfile
       args:
         PHP_VERSION: '8.2.3-fpm-bullseye'
-    # volumes:
-    #   - ./app:/var/www/app
+    volumes:
+        - ./app:/var/www/app
     ports:
       - "80:80" #http
       - "443:443" #https
@@ -21,9 +21,5 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: OM30
-    volumes:
-      - db_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-volumes:
-  db_data:
