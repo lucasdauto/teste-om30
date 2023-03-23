@@ -3,7 +3,11 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Paciente;
+use Database\Factories\PacienteFactory;
 use Illuminate\Database\Seeder;
+use Mockery\Generator\StringManipulation\Pass\Pass;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,5 +22,9 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+
+        $this->call([
+            PacienteSeeder::class,
+        ]);
     }
 }
