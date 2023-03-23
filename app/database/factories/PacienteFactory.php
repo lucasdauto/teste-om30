@@ -2,11 +2,12 @@
 
 namespace Database\Factories;
 
+use App\Models\Paciente;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Faker\Generator as Faker;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Paciente>
+ * @extends Factory<Paciente>
  */
 class PacienteFactory extends Factory
 {
@@ -17,20 +18,20 @@ class PacienteFactory extends Factory
      */
     public function definition(): array
     {
-        $faker = new Faker();
         return [
-            'nome_completo' => $faker->name,
-            'nome_mae' => $faker->name,
-            'data_nascimento' => $faker->date(),
-            'cpf' => $faker->cpf,
-            'cns' => $faker->numerify('###########'),
-            'endereco_cep' => $faker->postcode,
-            'endereco_logradouro' => $faker->streetName,
-            'endereco_numero' => $faker->buildingNumber,
-            'endereco_complemento' => $faker->secondaryAddress,
-            'endereco_bairro' => $faker->streetSuffix,
-            'endereco_cidade' => $faker->city,
-            'endereco_estado' => $faker->stateAbbr,
+            'foto' => $this->faker->imageUrl(),
+            'nome_completo' => $this->faker->name,
+            'nome_mae' => $this->faker->name,
+            'data_nascimento' => $this->faker->date,
+            'cpf' => $this->faker->numerify('###.###.###-##'),
+            'cns' => $this->faker->numerify('##########'),
+            'cep' => $this->faker->numerify('#####-###'),
+            'logradouro' => $this->faker->streetName,
+            'numero' => $this->faker->randomNumber(3),
+            'complemento' => $this->faker->secondaryAddress,
+            'bairro' => $this->faker->citySuffix,
+            'cidade' => $this->faker->city,
+            'estado' => $this->faker->stateAbbr,
         ];
     }
 }
