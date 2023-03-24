@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PacienteRequest;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
+use Validator;
 
 class PacienteController extends Controller
 {
@@ -129,4 +130,79 @@ class PacienteController extends Controller
             'message' => 'Erro ao remover paciente',
         ], 422);
     }
+
+    public function import()
+    {
+        $validate = Validator::make($this->request->all(), [
+            'file' => 'required|mimes:xls,xlsx,csv',
+        ]);
+
+        $extension = $this->request->file('file')->getClientOriginalExtension();
+
+        $pacientes = [];
+
+        switch ($extension) {
+
+            case 'xlsx':
+                $pacientes = self::getDataFromXlsx($this->request->file('file'));
+                break;
+
+            case 'xls':
+                $pacientes = self::getDataFromXlsx($this->request->file('file'));
+                break;
+
+            case 'csv':
+                $pacientes = array_map('str_getcsv', file($this->request->file('file')->getPathName()));
+                array_shift($pacientes);
+                break;
+
+            default:
+
+                break;
+        }
+
+        if (count($pacientes)) {
+            foreach ($pacientes as $paciente){
+                $paciente = new Paciente();
+                $paciente->foto = $paciente[0];
+                $paciente->nome_completo = $paciente[1];
+                $paciente->nome_mae = $paciente[2];
+                $paciente->data_nascimento = $paciente[3];
+                $paciente->cpf = $paciente[4];
+                $paciente->cns = $paciente[5];
+                $paciente->cep = $paciente[6];
+                $paciente->logradouro = $paciente[7];
+                $paciente->numero = $paciente[8];
+                $paciente->complemento = $paciente[9];
+                $paciente->bairro = $paciente[10];
+                $paciente->cidade = $paciente[11];
+                $paciente->estado = $paciente[12];
+
+                if ($paciente->save()) {
+                    return response()->json([
+                        'message' => 'Pacientes cadastrados com sucesso'
+                    ], 201);
+                }
+
+                return response()->json([
+                    'message' => 'Erro ao cadastrar pacientes',
+                ], 504);
+            }
+        }
+
+        return response()->json([
+            "message" => "Erro no arquivo de importação",
+        ], 500);
+
+    }
+
+    private function getDataFromXlsx($file)
+    {
+        $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+        $data = $spreadsheet->getActiveSheet()->toArray();
+        array_shift($data);
+        $data = array_filter(array_map('array_filter', $data));
+        return $data;
+    }
+
 }

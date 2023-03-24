@@ -24,3 +24,6 @@ Route::resource('paciente', PacienteController::class);
 Route::get('paciente/search',[PacienteController::class,'search'])->name('paciente.search');
 
 Route::resource('consulta-cep', CepController::class);
+
+
+Route::post('paciente/importacao',[PacienteController::class,'importacao'])->name('paciente.importacao');
