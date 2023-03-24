@@ -21,6 +21,9 @@ class PacienteController extends Controller
      */
     public function index()
     {
+        $this->validate($this->request, [
+            'cpf' => 'required|cpf',
+        ]);
 
         if ($this->request->has('nome_completo')) {
             $pacientes = Paciente::where('nome_completo', 'LIKE', "%{$this->request->nome_completo}%")
