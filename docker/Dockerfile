@@ -55,5 +55,8 @@ COPY ./docker/nginx/error.html /var/www/html/error.html
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # RUN apt update -y && apt install nano git -y
+RUN cd /var/www && \
+chown -R www-data:www-data * && \
+chmod -R o+w app
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
