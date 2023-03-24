@@ -55,7 +55,5 @@ COPY ./docker/nginx/error.html /var/www/html/error.html
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # RUN apt update -y && apt install nano git -y
-RUN php artisan key:generate
-RUN php artisan migrate:fresh --seed
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
