@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PacienteRequest;
 use App\Models\Paciente;
+use App\Rules\CPFValidationRule;
 use Illuminate\Http\Request;
 
 class PacienteController extends Controller
@@ -48,6 +49,9 @@ class PacienteController extends Controller
      */
     public function store(PacienteRequest $request)
     {
+        $validateDate = $request->validate($request, [
+            "cpf" => [new CPFValidationRule],
+        ]);
         dd($request->all());
     }
 
