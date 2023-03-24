@@ -140,7 +140,7 @@ return [
 
     'maintenance' => [
         'driver' => 'file',
-        // 'store'  => 'redis',
+         'store'  => 'redis',
     ],
 
     /*
@@ -209,6 +209,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+        'Redis' => Illuminate\Support\Facades\Redis::class,
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 

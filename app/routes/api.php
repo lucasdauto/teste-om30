@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PacienteController;
+use \App\Http\Controllers\CepController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,3 +22,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('paciente', PacienteController::class);
 Route::get('paciente/search',[PacienteController::class,'search'])->name('paciente.search');
+
+Route::resource('consulta-cep', CepController::class);
