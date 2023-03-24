@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PacienteRequest;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
 
@@ -10,26 +11,31 @@ class PacienteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'nome_completo' => 'string|max:45',
+            'cpf' => 'string|length:14',
+        ]);
 
-    /**
-     * Patient search by CPF or name.
-     */
-    public function search(Request $request)
-    {
-        if ($request->has('cpf')) {
-            $pacientes = Paciente::where('cpf', 'LIKE', "%{$request->cpf}%")->get();
-        } else {
-            $pacientes = Paciente::where('nome_completo', 'LIKE', "%{$request->nome}%")->get();
+        if ($request->has('nome_completo')) {
+            $pacientes = Paciente::where('nome_completo', 'LIKE', "%{$request->nome_completo}%")
+                ->get();
+            if (!$pacientes) {
+                return response()->json(['message' => 'Nenhum paciente encontrado'], 404);
+            }
         }
 
-        if ($pacientes->isEmpty()) {
-            return response()->json([
-                'message' => 'Nenhum paciente encontrado.',
-            ], 404);
+        if ($request->has('cpf')) {
+            $pacientes = Paciente::where('cpf', 'LIKE', "%{$request->cpf}%")
+                ->get();
+            if (!$pacientes) {
+                return response()->json(['message' => 'Nenhum paciente encontrado'], 404);
+            }
+        }
+
+        if (!isset($pacientes)) {
+            $pacientes = Paciente::all();
         }
 
         return response()->json([
@@ -40,9 +46,9 @@ class PacienteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PacienteRequest $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
