@@ -22,16 +22,17 @@ class PacienteRequest extends FormRequest
     public function rules(): array
     {
         return [
+//                'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
+                'foto' => 'required|string|max:255',
                 'nome_completo' => 'string|required|max:45',
-                'cpf' => 'string|length:14|required|unique:pacientes',
+                'cpf' => 'string|max:14|required|unique:pacientes',
                 'nome_mae' => 'string|required|max:45',
                 'data_nascimento' => 'date|required',
                 'cns' => 'required|unique:pacientes',
-                'cpf' => 'length:14|required|unique:pacientes',
-                'cep' => 'string|length:8|required',
+                'cep' => 'string|max:8|required',
                 'logradouro' => 'string|required|max:45',
                 'numero' => 'string|required|max:4',
-                'complemento' => 'string|required|max:45',
+                'complemento' => 'string|max:45',
                 'bairro' => 'string|required|max:45',
                 'cidade' => 'string|required|max:45',
                 'estado' => 'string|required|max:45',
