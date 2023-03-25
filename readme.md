@@ -26,18 +26,6 @@ docker ps
 docker compose version
 ```
 
-## Clone sua aplicação Laravel para a pasta 'app'. Caso a pasta app não existe, crie a pasta.
-
-A listagem de pastas do projeto deve ficar:
-
-```
-    app/
-    docker/
-    .gitignore
-    docker-compose.yml
-    readme.md
-```
-
 ## Certifique-se que sua aplicação Laravel ficou em `./app` e que existe o seguinte caminho: `/app/public/index.php`
 
 ## Certifique-se que sua aplicação Laravel possuí um .env e que este .env está com a `APP_KEY=` definida com valor válido.
